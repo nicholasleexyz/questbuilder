@@ -1,10 +1,10 @@
 function printhelp()
 	local line = "--------\n"
 	local a = "a or add - add in a new quest.\n"
-	local c = "c or complete - complete quest by id.\n"
+	--local c = "c or complete - complete quest by id.\n"
 	local r = "r or remove - remove quest by id.\n"
 	local q = "q or quit - exit program.\n"
-	local total = {line, a, c, r, q, line}
+	local total = {line, a, r, q}
 
 	for i=1,#total do
 		io.write(total[i])
@@ -18,7 +18,7 @@ function printquest(quest, id)
 	--local rewardtext = "REWARD: "..quest[2].."\n"
 	--local statustext = "STATUS: "..(quest[3]).."\n"
 	--local total = {line,idtext,questtext,rewardtext,statustext,line}
-	local total = {line,idtext,questtext,line}
+	local total = {line,idtext,questtext}
 	for i=1, #total do
 		io.write(total[i])
 	end
@@ -85,14 +85,14 @@ do
 		for i, v in pairs(questlog) do
 			printquest(v, i)
 		end
-	elseif(input == "complete" or input == "c") then
-		io.write("Complete which quest? ID: ")
-		input = io.read("*n")
-		local num = tonumber(input)
-		questlog[num][3] = "COMPLETE"
-		for i, v in pairs(questlog) do
-			printquest(v, i)
-		end
+	--elseif(input == "complete" or input == "c") then
+	--	io.write("Complete which quest? ID: ")
+	--	input = io.read("*n")
+	--	local num = tonumber(input)
+	--	questlog[num][3] = "COMPLETE"
+	--	for i, v in pairs(questlog) do
+	--		printquest(v, i)
+	--	end
 	end
 	printhelp()
 end
