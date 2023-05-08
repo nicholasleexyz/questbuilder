@@ -1,42 +1,55 @@
--- Quest Generator
---
-
 function printhelp()
 	local line = "--------\n"
 	local a = "a or add - add in a new quest.\n"
 	local c = "c or complete - complete quest by id.\n"
 	local r = "r or remove - remove quest by id.\n"
 	local q = "q or quit - exit program.\n"
-	local h = "h or help - print help menu.\n"
-	io.write(line..h..a..c..r..q..line);
+	local total = {line, a, c, r, q, line}
+
+	for i=1,#total do
+		io.write(total[i])
+	end
 end
 
 function printquest(quest, id)
 	local line = "--------\n"
 	local idtext = "QUEST ID: "..id.."\n"
-	local questtext = quest[1].."\n"
-	local rewardtext = "REWARD: "..quest[2].."\n"
-	local statustext = "STATUS: "..(quest[3]).."\n"
-	local text = line..idtext..questtext..rewardtext..statustext..line
-	--"--------\nQUEST ID: " ..id.."\n" ..quest[1].."\n" .."REWARD: "..quest[2].."\n" .."STATUS: "..(quest[3] and "COMPLETED" or "INCOMPLETE\n--------\n"
-	io.write(text)
+	local questtext = quest
+	--local rewardtext = "REWARD: "..quest[2].."\n"
+	--local statustext = "STATUS: "..(quest[3]).."\n"
+	--local total = {line,idtext,questtext,rewardtext,statustext,line}
+	local total = {line,idtext,questtext,line}
+	for i=1, #total do
+		io.write(total[i])
+	end
 end
 
 function buildrandomquest()
 	local qtype = getrandom(questtypes)
-	local task
+	local task = {}
 	local reward = getrandom(items)
-	if qtype == "find" then
-		task = "Find a missing "..getrandom({passivetypes, items}).."."
-	elseif qtype == "rescue" then
-		task = "Rescue a "..getrandom(passivetypes).." from a "..getrandom(enemytypes).."!"
-	elseif qtype == "defeat" then
-		task = "Defeat a "..getrandom(enemytypes).."."
-	else -- collect
-		task = "Collect "..math.random(10).." "..getrandom(items).."(s)."
-	end
 
-	return {task, reward, "INCOMPLETE"}
+	local passive = getrandom(passivetypes)
+	local enemy = getrandom(enemytypes)
+	local item = getrandom(items)
+	local num = tostring(math.random(10))
+	local passiveoritem = (math.random(2) % 2 == 0 and passive or item)
+
+	if qtype == "find" then
+		task = {"Find a missing ", passiveoritem, ".\n"}
+	elseif qtype == "rescue" then
+		task = {"Rescue a ", passive, " from a ", enemy, "!\n"}
+	elseif qtype == "defeat" then
+		task = {"Defeat a ", enemy, ".\n"}
+	else -- collect
+		task ={"Collect ", num, " ", getrandom(items), "(s).\n"}
+	end
+	table.insert(task,"REWARD: A ")
+	table.insert(task,reward)
+	table.insert(task,"\n")
+	local val = table.concat(task)
+
+	return val
 end
 
 function getrandom(tab)
@@ -61,12 +74,12 @@ do
 	elseif(input == "add" or input == "a") then
 		local q = buildrandomquest()
 		questlog[#questlog + 1] = q
-		for i, v in pairs(questlog) do
-			printquest(v, i)
+		for i=1, #questlog do
+			printquest(questlog[i], i)
 		end
 	elseif(input == "remove" or input == "r") then
 		io.write("Remove which quest? ID: ")
-		input = io.read()
+		input = io.read("*n")
 		local num = tonumber(input)
 		table.remove(questlog, num)
 		for i, v in pairs(questlog) do
@@ -74,48 +87,12 @@ do
 		end
 	elseif(input == "complete" or input == "c") then
 		io.write("Complete which quest? ID: ")
-		input = io.read()
+		input = io.read("*n")
 		local num = tonumber(input)
 		questlog[num][3] = "COMPLETE"
 		for i, v in pairs(questlog) do
 			printquest(v, i)
 		end
-	elseif(input == "help" or input == "h") then
-		printhelp()
 	end
+	printhelp()
 end
-
-
--- defeat a...
--- save a...
--- find a...
--- collect X...
-
--- Enemy Modifiers: Giant, Scary, Enraged, Monsterous, Perceptive, Lame, Man-Eating
--- Enemies: Goblin, Troll, Skeleton, Zombie, Ogre, Demon, Dragon, Slime, Golem, Bug
--- NPCs: Princess, Goat, Dog, Frog, Merchant
--- Items: Gold, Apple, Shovel, Sword, Mysterious Ring, Really Cool Hat
-
--- Quest System
--- Quest log:
---     Quest:
---         Description:
---         Task(s):
---         completion status
---            complete
---            incomplete
---         Reward:
---     Quest:
---         Description:
---         Task(s):
---         completion status
---            complete
---            incomplete
---         Reward:
-
-
--- add/remove/edit Quests
-
--- io.write("Hello, what is your name? ")
--- local name = io.read()
--- io.write("Nice to meet you, ", name, "!\n")
