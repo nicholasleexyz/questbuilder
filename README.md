@@ -1,6 +1,6 @@
 # Quest Builder
-randomly generates quests
-written completely lua
+Randomly generates quests and is written completely lua!
+
 Example:
 ```
 --------
