@@ -12,7 +12,7 @@ function printhelp()
 end
 
 function printquest(quest, id)
-	local idtext = "QUEST ID: "..id.."\n"
+	local idtext = "ID: "..id.."\n"
 	local questtext = quest
 	local total = {line,idtext,questtext}
 	for i=1, #total do
@@ -45,7 +45,7 @@ function buildrandomquest()
 	table.insert(task,"\n")
 	local val = table.concat(task)
 
-	return val
+	return "QUEST: "..val
 end
 
 function getrandom(tab)
