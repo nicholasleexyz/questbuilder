@@ -68,6 +68,7 @@ do
 		running = false
 		return
 	elseif(input == "add" or input == "a") then
+		os.execute("clear")
 		local q = buildrandomquest()
 		questlog[#questlog + 1] = q
 		for i=1, #questlog do
@@ -76,6 +77,7 @@ do
 	elseif(input == "remove" or input == "r") then
 		io.write("Remove which quest? ID: ")
 		input = io.read("*n")
+		os.execute("clear")
 		local num = tonumber(input)
 		table.remove(questlog, num)
 		for i, v in pairs(questlog) do
