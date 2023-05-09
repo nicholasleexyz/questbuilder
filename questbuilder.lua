@@ -1,5 +1,5 @@
 function printhelp()
-	local line = "--------\n"
+	local line = "--------*--------*--------\n"
 	local a = "a or add - add in a new quest.\n"
 	local r = "r or remove - remove quest by id.\n"
 	local q = "q or quit - exit program.\n"
@@ -11,7 +11,7 @@ function printhelp()
 end
 
 function printquest(quest, id)
-	local line = "--------\n"
+	local line = "--------*--------*--------\n"
 	local idtext = "QUEST ID: "..id.."\n"
 	local questtext = quest
 	local total = {line,idtext,questtext}
@@ -23,7 +23,7 @@ end
 function buildrandomquest()
 	local qtype = getrandom(questtypes)
 	local task = {}
-	local reward = getrandom(items)
+	local reward = tostring(math.random(10)).." "..getrandom(items).."(s)"
 
 	local passive = getrandom(passivetypes)
 	local enemy = getrandom(enemytypes)
@@ -40,7 +40,7 @@ function buildrandomquest()
 	else -- collect
 		task ={"Collect ", num, " ", getrandom(items), "(s).\n"}
 	end
-	table.insert(task,"REWARD: A ")
+	table.insert(task,"REWARD: ")
 	table.insert(task,reward)
 	table.insert(task,"\n")
 	local val = table.concat(task)
@@ -59,6 +59,7 @@ items={"gold coin", "apple", "shovel", "sword", "ring", "hat!"}
 running = true
 questlog = {} -- contains quests :P
 
+os.execute("clear")
 printhelp()
 
 while(running)
