@@ -1,5 +1,6 @@
+local line = "--------*--------*--------\n"
+
 function printhelp()
-	local line = "--------*--------*--------\n"
 	local a = "a or add - add in a new quest.\n"
 	local r = "r or remove - remove quest by id.\n"
 	local q = "q or quit - exit program.\n"
@@ -11,7 +12,6 @@ function printhelp()
 end
 
 function printquest(quest, id)
-	local line = "--------*--------*--------\n"
 	local idtext = "QUEST ID: "..id.."\n"
 	local questtext = quest
 	local total = {line,idtext,questtext}
@@ -75,6 +75,7 @@ do
 		for i=1, #questlog do
 			printquest(questlog[i], i)
 		end
+		printhelp()
 	elseif(input == "remove" or input == "r") then
 		io.write("Remove which quest? ID: ")
 		input = io.read("*n")
@@ -84,6 +85,6 @@ do
 		for i, v in pairs(questlog) do
 			printquest(v, i)
 		end
+		printhelp()
 	end
-	printhelp()
 end
